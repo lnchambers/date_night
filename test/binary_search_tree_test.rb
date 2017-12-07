@@ -16,7 +16,10 @@ class BinarySearchTreeTest < Minitest::Test
 
     insert = binary.insert(99, "Cloud Atlas")
 
-    assert_equal 99, insert.score
+    assert_instance_of Node, binary.root
+
+    assert_equal 99, binary.root.score
+    assert_equal "Cloud Atlas", binary.root.movie
   end
 
   def test_insert_five
@@ -74,7 +77,7 @@ class BinarySearchTreeTest < Minitest::Test
     binary.insert(1, "Any Nicholas Cage Movie")
     binary.insert(54, "Seagulls; Stop It Now")
 
-    assert_equal [61 => "Peter Pan"], binary.max
+    assert_equal ["Peter Pan" => 61], binary.max
 
   end
 
@@ -86,10 +89,11 @@ class BinarySearchTreeTest < Minitest::Test
     binary.insert(1, "Any Nicholas Cage Movie")
     binary.insert(54, "Seagulls; Stop It Now")
 
-    assert_equal [1 => "Any Nicholas Cage Movie"], binary.min
+    assert_equal ["Any Nicholas Cage Movie" => 1], binary.min
   end
 
   def test_sort
+    skip
     binary = BinarySearchTree.new
 
     binary.insert(50, "Cloud Atlas")

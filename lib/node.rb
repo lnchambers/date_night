@@ -10,19 +10,18 @@ class Node
     @movie = movie
     @left = nil
     @right = nil
+    @depth = 0
   end
 
-  # def traverse(score)
-  #   if score > @score && @right.nil?
-  #     @right = Node.new(score)
-  #   elsif score > @score
-  #     @right.traverse(score)
-  #   elsif score < @score && @left.nil?
-  #     @left = Node.new(score)
-  #   elsif score < @score
-  #     @left.traverse(score)
-  #   else
-  #     puts "Good news! This movie is already in our system."
-  #   end
-  # end
+  def insert(score, movie)
+    if score < @score && @left.nil?
+      @left = Node.new(score, movie)
+    elsif score < @score && @left
+      @left.insert(score, movie)
+    elsif score > @score && @right.nil?
+      @right = Node.new(score, movie)
+    else
+      @right.insert(score, movie)
+    end
+  end
 end

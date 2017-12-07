@@ -12,23 +12,42 @@ class NodeTest < Minitest::Test
   end
 
   def test_node_accepts_score
-    node = Node.new(99)
+    node = Node.new(99, "movie")
 
-    data = node.data
+    score = node.score
+    movie = node.movie
 
-    assert_equal 99, data
+    assert_equal 99, score
+    assert_equal "movie", movie
   end
 
   def test_node_accepts_different_score
-    node = Node.new(2)
+    node = Node.new(2, "movie")
 
-    data = node.data
+    score = node.score
+    movie = node.movie
 
-    assert_equal 2, data
+    assert_equal 2, score
+    assert_equal "movie", movie
+  end
+
+  def test_node_accepts_different_movie
+    node = Node.new(99, "movie")
+    node2 = Node.new(99, "movie2")
+
+    score = node.score
+    movie = node.movie
+    score2 = node2.score
+    movie2 = node2.movie
+
+    assert_equal 99, score
+    assert_equal "movie", movie
+    assert_equal 99, score2
+    assert_equal "movie2", movie2
   end
 
   def test_node_differentiates_path
-    node = Node.new(99)
+    node = Node.new(99, "movie")
 
     left = node.left
     right = node.right
