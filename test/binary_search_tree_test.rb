@@ -6,35 +6,37 @@ require_relative "../lib/binary_search_tree.rb"
 class BinarySearchTreeTest < Minitest::Test
 
   def test_it_exists
-    binary_search_tree = BinarySearchTree.new(nil, "")
+    binary_search_tree = BinarySearchTree.new
 
     assert_instance_of BinarySearchTree, binary_search_tree
   end
 
   def test_insert
-    binary = BinarySearchTree.new(nil, "")
+    binary = BinarySearchTree.new
 
     insert = binary.insert(99, "Cloud Atlas")
 
     assert_equal 99, insert.score
   end
 
-  def test_insert_four
-    binary = BinarySearchTree.new(nil, "")
+  def test_insert_five
+    binary = BinarySearchTree.new
 
-    insert1 = binary.insert(99, "Cloud Atlas")
-    insert2 = binary.insert(2, "any Nicholas Cage movie")
-    insert3 = binary.insert(50, "Matt Damon!!!")
-    insert4 = binary.insert(98, "A Muppets Christmas Carol")
+    binary.insert(99, "Cloud Atlas")
+    binary.insert(2, "any Nicholas Cage movie")
+    binary.insert(50, "Matt Damon!!!")
+    binary.insert(98, "A Muppets Christmas Carol")
+    binary.insert(74, "Home Alone")
 
-    assert_equal 99, insert1.score
-    assert_equal 2,  insert2.score
-    assert_equal 50, insert3.score
-    assert_equal 98, insert4.score
+    assert_equal 99, binary.root.score
+    assert_equal 2,  binary.root.left.score
+    assert_equal 50, binary.root.left.right.score
+    assert_equal 98, binary.root.left.right.right.score
+    assert_equal 74, binary.root.left.right.right.left.score
   end
 
   def test_include_true_or_false
-    binary = BinarySearchTree.new(nil, "Matt Damon!!!")
+    binary = BinarySearchTree.new
 
     binary.insert(50, "Matt Damon!!!")
     binary.insert(43, "Not Matt Damon!!!")
@@ -42,30 +44,30 @@ class BinarySearchTreeTest < Minitest::Test
     binary.insert(51, "Matt Damon as Jason Bourne!!!")
 
     assert binary.include?(50)
-    refute binary.include?(98)
+    assert binary.include?(43)
+    assert binary.include?(51)
+    assert binary.include?(99)
+    refute binary.include?(33)
   end
 
   def test_depth_of
-    skip
-    binary = BinarySearchTree.new(52, "Matt Damon's Puppy!!!!")
+    binary = BinarySearchTree.new
 
-    assert_nil binary.depth_of(45)
+    assert_equal "Score not included", binary.depth_of(45)
 
     binary.insert(50, "Matt Damon!!!")
     binary.insert(43, "Not Matt Damon!!!")
     binary.insert(99, "Cloud Atlas")
     binary.insert(51, "Matt Damon as Jason Bourne!!!")
 
-    assert_equal 0, binary.depth_of(52)
-    assert_equal 1, binary.depth_of(50)
+    assert_equal 0, binary.depth_of(50)
     assert_equal 1, binary.depth_of(43)
-    assert_equal 2, binary.depth_of(99)
+    assert_equal 1, binary.depth_of(99)
     assert_equal 2, binary.depth_of(51)
   end
 
   def test_max
-    skip
-    max = BinarySearchTree.new(nil, "")
+    max = BinarySearchTree.new
 
     assert_nil max
 
@@ -94,12 +96,12 @@ class BinarySearchTreeTest < Minitest::Test
 
   def test_sort
     skip
-    sort = BinarySearchTree.new(nil, "")
+    sort = BinarySearchTree.new
   end
 
   def test_load
     skip
-    binary = BinarySearchTree.new(nil, "")
+    binary = BinarySearchTree.new
 
     load = binary.load('movies.txt')
     includes = binary.include?(24)
@@ -113,24 +115,24 @@ class BinarySearchTreeTest < Minitest::Test
 
   def test_health
     skip
-    health = BinarySearchTree.new(nil, "")
+    health = BinarySearchTree.new
   end
 
 # Below here are extensions
 
   def test_leaves
     skip
-    leaves = BinarySearchTree.new(nil, "")
+    leaves = BinarySearchTree.new
   end
 
   def test_height
     skip
-    height = BinarySearchTree.new(nil, "")
+    height = BinarySearchTree.new
   end
 
   def test_delete
     skip
-    binary = BinarySearchTree.new(nil, "")
+    binary = BinarySearchTree.new
 
     insert = binary.insert(1, "Any Nicholas Cage Movie")
     insert2 = binary.insert(99, "Cloud Atlas")

@@ -1,73 +1,103 @@
 require "pry"
 require_relative "node"
 
-class BinarySearchTree < Node
+class BinarySearchTree
 
   attr_reader :root
 
-  def initialize(score = nil, movie)
-    @root = Node.new(score, movie)
+  def initialize
+    @root = nil
     @depth = 0
   end
 
-  def insert(score, movie, current_node = @root)
-    if @root.score.nil?
+  def insert(score, movie)
+    if root.nil?
       @root = Node.new(score, movie)
-    else current_node.traverse(score, current_node)
+    else
+      insert_traverse(score, movie, @root)
     end
   end
 
-  def include?(score, node = @root)
+  def insert_traverse(score, movie, current_node)
+    if current_node.score > score
+      insert_left(score, movie, current_node)
+    else
+      insert_right(score, movie, current_node)
+    end
+  end
+
+  def insert_left(score, movie, current_node)
+    if current_node.left.nil?
+      current_node.left = Node.new(score, movie)
+    else
+      insert_traverse(score, movie, current_node.left)
+    end
+  end
+
+  def insert_right(score, movie, current_node)
+    if current_node.right.nil?
+      current_node.right = Node.new(score, movie)
+    else
+      insert_traverse(score, movie, current_node.right)
+    end
+  end
+
+  # I need to check the right position if its nil
+  # I need to check the left position if its nil
+
+  def include?(score, current_node = @root)
     # this needs to take the BST and search for a given value
     # It will need to iterate through the BST using the traversal method
     # and find the instance where the entered value == value
-    if score == node.score
-      true
-    elsif score > node.score
-      include?(score, node.right)
-    elsif score < node.score
-      include?(score, node.left)
-    else node.nil?
+    if current_node.nil?
       false
+    elsif score == current_node.score
+      true
+    else
+      include_traverse(score, current_node)
     end
   end
 
-  def depth_of(score, node = @root)
+  def include_traverse(score, current_node)
+    if score > current_node.score
+      include?(score, current_node.right)
+    else
+      include?(score, current_node.left)
+    end
+  end
+
+  def depth_of(score, depth = 0, current_node = @root)
     # This method will count how many times it iterates through the traversal
     # method to get to a certain score. Similar to include? except with counting
     # depths.
-    if score == node.score
-      @depth
-    elsif score > node.score
-      @depth + 1
-      depth_of(score, node.right)
-    elsif score < node.score
-      @depth + 1
-      depth_of(score, node.left)
+    if current_node.nil?
+      depth = "Score not included"
+    elsif score == current_node.score
+      depth
     else
-      puts "That score is not included."
+      depth_of_traverse(score, depth, current_node)
     end
   end
 
-  def max(node = @root)
+  def depth_of_traverse(score, depth, current_node)
+    if score > current_node.score
+      depth += 1
+      depth_of(score, depth, current_node.right)
+    else
+      depth += 1
+      depth_of(score, depth, current_node.left)
+    end
+  end
+
+  def max(current_node = @root)
     # This method will return the highest rated score on the BST.
     # To do this, traverse as far right as possible.
-    if node.right.nil?
-      max = node
-    else
-      max(node.right)
-    end
-    max
+    if current_node
   end
 
-  def min(node = @root)
+  def min(current_node = @root)
     # This method is similar to max, but traverse as far left as possible
-    if node.left.nil?
-      min = node
-    else
-      min(node.left)
-    end
-    min
+
   end
 
   def sort
@@ -77,7 +107,6 @@ class BinarySearchTree < Node
 
   def load(movies)
     # Load a .txt file with one movie/score per line and load it onto the BST
-    insert(load'movies.txt')
   end
 
   def health(depth)
