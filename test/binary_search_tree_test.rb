@@ -90,7 +90,6 @@ class BinarySearchTreeTest < Minitest::Test
   end
 
   def test_sort
-    skip
     binary = BinarySearchTree.new
 
     binary.insert(35, "Cloud Atlas")

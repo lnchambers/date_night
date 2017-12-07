@@ -117,25 +117,38 @@ class BinarySearchTree
   def sort(sorted = [], current_node = @root)
     # Traverse the tree and pull every value. Use those values to build an
     # array of hashes from lowest to highest.
-    if !current_node.nil?
-      sort_traverse(sorted, current_node)
+    if current_node.left.nil?
+      sorted << [current_node.score => current_node.movie]
+      current_node = current_node.right
     else
-      sorted
+      set_node = current_node.left
+      while !set_node.nil? && set_node.right != current_node
+        set_node = set_node.right
+
+        if set_node.right.nil?
+          set_node.right = current_node
+          current_node = current_node.left
+        else
+          set_node.right = nil
+          sorted << [current_node.score => current_node.movie]
+          current_node = current_node.right
+        end
+      end
     end
   end
 
-  def sort_traverse(sorted, current_node)
-    if current_node.right.nil? && current_node.left.nil?
-      sort(sorted, current_node)
-    elsif current_node.left
-      sort_traverse(sorted, current_node.left)
-    elsif current_node.score.nil?
-      sorted << [current_node.score => current_node.movie]
-    else
-      current_node.right
-      sort_traverse(sorted, current_node.right)
-    end
-  end
+  # def sort_traverse(sorted, current_node)
+  #   if current_node.right.nil? && current_node.left.nil?
+  #     sort(sorted, current_node)
+  #   elsif current_node.left
+  #     sort_traverse(sorted, current_node.left)
+  #   elsif current_node.score.nil?
+  #     sorted << [current_node.score => current_node.movie]
+  #   else
+  #     current_node.right
+  #     sort_traverse(sorted, current_node.right)
+  #   end
+  # end
 
   def load(movies)
     File.open(movies).each do |line|
