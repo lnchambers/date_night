@@ -117,21 +117,41 @@ class BinarySearchTree
   def sort(sorted = [], current_node = @root)
     # Traverse the tree and pull every value. Use those values to build an
     # array of hashes from lowest to highest.
+    # if current_node.left.nil?
+    #   sorted.push([current_node.score => current_node.movie])
+    #   current_node = current_node.right
+    # else
+    #   set_node = current_node
+    #   while !set_node.nil? && set_node.right != current_node
+    #     set_node = set_node.right
+    #
+    #     if set_node.right.nil?
+    #       set_node.right = current_node
+    #       current_node = current_node.left
+    #     else
+    #       set_node.right = nil
+    #       sorted.push([current_node.score => current_node.movie])
+    #       current_node = current_node.right
+    #     end
+    #   end
+    # end
     if current_node.left.nil?
-      sorted.push([current_node.score => current_node.movie])
+      sorted << [current_node.score => current_node.movie]
       current_node = current_node.right
     else
       set_node = current_node
-      while !set_node.nil? && set_node.right != current_node
-        set_node = set_node.right
+      while
+        !set_node.nil? && set_node.right != current_node
+        set_node.right = nil
+        current_node = current_node.right
 
         if set_node.right.nil?
           set_node.right = current_node
+          sorted << [current_node.score => current_node.movie]
           current_node = current_node.left
         else
-          set_node.right = nil
-          sorted.push([current_node.score => current_node.movie])
-          current_node = current_node.right
+          current_node.nil?
+          return sorted
         end
       end
     end
