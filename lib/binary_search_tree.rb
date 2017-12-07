@@ -151,7 +151,7 @@ class BinarySearchTree
           current_node = current_node.left
         else
           current_node.nil?
-          return sorted
+          current_node = @root
         end
       end
     end
