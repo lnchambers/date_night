@@ -112,47 +112,56 @@ class BinarySearchTree
     end
   end
 
-  def sort(sorted = [])
+  def sort(sorted = [], current_node = @root)
   #   Traverse the tree and pull every value. Use those values to build an
   #   array of hashes from lowest to highest.
-    if !sorted.nil?
-      sort_traverse(sorted)
-    else
-      sorted
+    sorted = []
+    size = 100
+    100.times do |score|
+      if current_node.nil?
+        current_node
+      elsif current_node.score == score
+        sorted << [current_node.score => current_node.movie]
+      elsif score > current_node.score
+        current_node = current_node.right
+      else
+        current_node = current_node.left
+      end
     end
+    sorted
   end
 
-  def sort_traverse(sorted, current_node = @root)
-    if current_node.nil?
-      sort_traverse_reverse(sorted)
-    elsif current_node.left
-      sort_traverse(sorted, current_node.left)
-    elsif current_node.score.nil?
-      sorted << [current_node.score => current_node.movie]
-    else
-      current_node.right
-      sort_traverse(sorted, current_node.right)
-    end
-  end
-
-  def sort_traverse_reverse(sorted, current_node = @root)
-    if current_node.nil?
-      sort(sorted)
-    elsif current_node.right
-      sort_traverse(sorted, current_node.left)
-    elsif current_node.score.nil?
-      sorted << [current_node.score => current_node.movie]
-    else
-      current_node.left
-      sort_traverse(sorted, current_node.left)
-    end
+  def sort_traverse(current_node = @root)
+  #   if current_node.nil?
+  #     sort_traverse_reverse(sorted)
+  #   elsif current_node.left
+  #     sort_traverse(sorted, current_node.left)
+  #   elsif current_node.score.nil?
+  #     sorted << [current_node.score => current_node.movie]
+  #   else
+  #     current_node.right
+  #     sort_traverse(sorted, current_node.right)
+  #   end
+  # end
+  #
+  # def sort_traverse_reverse(sorted, current_node = @root)
+  #   if current_node.nil?
+  #     sort(sorted)
+  #   elsif current_node.right
+  #     sort_traverse(sorted, current_node.left)
+  #   elsif current_node.score.nil?
+  #     sorted << [current_node.score => current_node.movie]
+  #   else
+  #     current_node.left
+  #     sort_traverse(sorted, current_node.left)
+  #   end
   end
 
   def load(movies)
     File.open(movies).each do |line|
       line.split(",")
-      score = line[0].to_i
-      movie = line[1]
+      score = line.split(",")[0].to_i
+      movie = line.split(",")[1]
       insert(score, movie)
     end
   end

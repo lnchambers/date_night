@@ -106,6 +106,8 @@ class BinarySearchTreeTest < Minitest::Test
     binary.load('./lib/movies.txt')
 
     assert binary.include?(0)
+    assert binary.include?(25)
+    assert binary.include?(100)
   end
 
   def test_health
