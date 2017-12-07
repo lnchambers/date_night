@@ -67,50 +67,45 @@ class BinarySearchTreeTest < Minitest::Test
   end
 
   def test_max
-    max = BinarySearchTree.new
+    binary = BinarySearchTree.new
 
-    assert_nil max
+    binary.insert(35, "Cloud Atlas")
+    binary.insert(61, "Peter Pan")
+    binary.insert(1, "Any Nicholas Cage Movie")
+    binary.insert(54, "Seagulls; Stop It Now")
 
-    tree.insert(99, "Cloud Atlas")
-    tree.insert(98, "Peter Pan")
-    tree.insert(1, "Any Nicholas Cage Movie")
-    tree.insert(35, "Seagulls; Stop It Now")
-
-    assert_equal [99 => "Cloud Atlas"], max
+    assert_equal [61 => "Peter Pan"], binary.max
 
   end
 
   def test_min
-    skip
-    min = BinarySearchTree.new
+    binary = BinarySearchTree.new
 
-    assert_nil min
+    binary.insert(35, "Cloud Atlas")
+    binary.insert(61, "Peter Pan")
+    binary.insert(1, "Any Nicholas Cage Movie")
+    binary.insert(54, "Seagulls; Stop It Now")
 
-    insert(99, "Cloud Atlas")
-    insert(98, "Peter Pan")
-    insert(1, "Any Nicholas Cage Movie")
-    insert(35, "Seagulls; Stop It Now")
-
-    assert_equal [1 => "Any Nicholas Cage Movie"], min
+    assert_equal [1 => "Any Nicholas Cage Movie"], binary.min
   end
 
   def test_sort
-    skip
-    sort = BinarySearchTree.new
+    binary = BinarySearchTree.new
+
+    binary.insert(35, "Cloud Atlas")
+    binary.insert(61, "Peter Pan")
+    binary.insert(1, "Any Nicholas Cage Movie")
+    binary.insert(54, "Seagulls; Stop It Now")
+
+    assert_equal [{}], binary.sort
   end
 
   def test_load
-    skip
     binary = BinarySearchTree.new
 
-    load = binary.load('movies.txt')
-    includes = binary.include?(24)
+    binary.load('./lib/movies.txt')
 
-    assert_equal true, includes
-
-    includes = binary.include?(0)
-
-    assert_equal true, includes
+    assert binary.include?(0)
   end
 
   def test_health

@@ -92,21 +92,69 @@ class BinarySearchTree
   def max(current_node = @root)
     # This method will return the highest rated score on the BST.
     # To do this, traverse as far right as possible.
-    if current_node
+    if current_node.nil?
+      maximum = "There is no tree"
+    elsif current_node.right.nil?
+      [current_node.score => current_node.movie]
+    else
+      max(current_node.right)
+    end
   end
 
   def min(current_node = @root)
     # This method is similar to max, but traverse as far left as possible
-
+    if current_node.nil?
+      minimum = "There is no tree"
+    elsif current_node.left.nil?
+      [current_node.score => current_node.movie]
+    else
+      min(current_node.left)
+    end
   end
 
-  def sort
+  def sort(sorted = [])
   #   Traverse the tree and pull every value. Use those values to build an
   #   array of hashes from lowest to highest.
+    if !sorted.nil?
+      sort_traverse(sorted)
+    else
+      sorted
+    end
+  end
+
+  def sort_traverse(sorted, current_node = @root)
+    if current_node.nil?
+      sort_traverse_reverse(sorted)
+    elsif current_node.left
+      sort_traverse(sorted, current_node.left)
+    elsif current_node.score.nil?
+      sorted << [current_node.score => current_node.movie]
+    else
+      current_node.right
+      sort_traverse(sorted, current_node.right)
+    end
+  end
+
+  def sort_traverse_reverse(sorted, current_node = @root)
+    if current_node.nil?
+      sort(sorted)
+    elsif current_node.right
+      sort_traverse(sorted, current_node.left)
+    elsif current_node.score.nil?
+      sorted << [current_node.score => current_node.movie]
+    else
+      current_node.left
+      sort_traverse(sorted, current_node.left)
+    end
   end
 
   def load(movies)
-    # Load a .txt file with one movie/score per line and load it onto the BST
+    File.open(movies).each do |line|
+      line.split(",")
+      score = line[0].to_i
+      movie = line[1]
+      insert(score, movie)
+    end
   end
 
   def health(depth)

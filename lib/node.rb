@@ -1,6 +1,7 @@
 class Node
 
-  attr_reader   :score
+  attr_reader   :score,
+                :movie
   attr_accessor :left,
                 :right
 
