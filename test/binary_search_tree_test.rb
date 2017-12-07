@@ -92,11 +92,17 @@ class BinarySearchTreeTest < Minitest::Test
   def test_sort
     binary = BinarySearchTree.new
 
-    binary.insert(35, "Cloud Atlas")
+    binary.insert(50, "Cloud Atlas")
     binary.insert(61, "Peter Pan")
-    binary.insert(1, "Any Nicholas Cage Movie")
+    binary.insert(35, "Any Nicholas Cage Movie")
+    binary.insert(27, "Nightmare")
+    binary.insert(72, "Spiderman")
 
-    assert_equal [{}], binary.sort
+    assert_equal [{27 => "Nightmare"},
+      {35 => "Any Nicholas Cage Movie"},
+      {50 => "Cloud Atlas"},
+      {61 => "Peter Pan"},
+      {72 => "Spiderman"}], binary.sort
   end
 
   def test_load

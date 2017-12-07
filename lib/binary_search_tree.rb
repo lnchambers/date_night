@@ -118,10 +118,10 @@ class BinarySearchTree
     # Traverse the tree and pull every value. Use those values to build an
     # array of hashes from lowest to highest.
     if current_node.left.nil?
-      sorted << [current_node.score => current_node.movie]
+      sorted.push([current_node.score => current_node.movie])
       current_node = current_node.right
     else
-      set_node = current_node.left
+      set_node = current_node
       while !set_node.nil? && set_node.right != current_node
         set_node = set_node.right
 
@@ -130,7 +130,7 @@ class BinarySearchTree
           current_node = current_node.left
         else
           set_node.right = nil
-          sorted << [current_node.score => current_node.movie]
+          sorted.push([current_node.score => current_node.movie])
           current_node = current_node.right
         end
       end
