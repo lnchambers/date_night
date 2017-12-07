@@ -7,11 +7,11 @@ class BinarySearchTree
 
   def initialize
     @root = nil
-    @depth = 0
+    @size = 0
   end
 
   def insert(score, movie)
-    if root.nil?
+    if @root.nil?
       @root = Node.new(score, movie)
     else
       insert_traverse(score, movie, @root)
@@ -29,6 +29,7 @@ class BinarySearchTree
   def insert_left(score, movie, current_node)
     if current_node.left.nil?
       current_node.left = Node.new(score, movie)
+      @size += 1
     else
       insert_traverse(score, movie, current_node.left)
     end
@@ -37,6 +38,7 @@ class BinarySearchTree
   def insert_right(score, movie, current_node)
     if current_node.right.nil?
       current_node.right = Node.new(score, movie)
+      @size += 1
     else
       insert_traverse(score, movie, current_node.right)
     end
@@ -113,48 +115,26 @@ class BinarySearchTree
   end
 
   def sort(sorted = [], current_node = @root)
-  #   Traverse the tree and pull every value. Use those values to build an
-  #   array of hashes from lowest to highest.
-    sorted = []
-    size = 100
-    100.times do |score|
-      if current_node.nil?
-        current_node
-      elsif current_node.score == score
-        sorted << [current_node.score => current_node.movie]
-      elsif score > current_node.score
-        current_node = current_node.right
-      else
-        current_node = current_node.left
-      end
+    # Traverse the tree and pull every value. Use those values to build an
+    # array of hashes from lowest to highest.
+    if !current_node.nil?
+      sort_traverse(sorted, current_node)
+    else
+      sorted
     end
-    sorted
   end
 
-  def sort_traverse(current_node = @root)
-  #   if current_node.nil?
-  #     sort_traverse_reverse(sorted)
-  #   elsif current_node.left
-  #     sort_traverse(sorted, current_node.left)
-  #   elsif current_node.score.nil?
-  #     sorted << [current_node.score => current_node.movie]
-  #   else
-  #     current_node.right
-  #     sort_traverse(sorted, current_node.right)
-  #   end
-  # end
-  #
-  # def sort_traverse_reverse(sorted, current_node = @root)
-  #   if current_node.nil?
-  #     sort(sorted)
-  #   elsif current_node.right
-  #     sort_traverse(sorted, current_node.left)
-  #   elsif current_node.score.nil?
-  #     sorted << [current_node.score => current_node.movie]
-  #   else
-  #     current_node.left
-  #     sort_traverse(sorted, current_node.left)
-  #   end
+  def sort_traverse(sorted, current_node)
+    if current_node.right.nil? && current_node.left.nil?
+      sort(sorted, current_node)
+    elsif current_node.left
+      sort_traverse(sorted, current_node.left)
+    elsif current_node.score.nil?
+      sorted << [current_node.score => current_node.movie]
+    else
+      current_node.right
+      sort_traverse(sorted, current_node.right)
+    end
   end
 
   def load(movies)
